@@ -12,7 +12,6 @@ namespace Server
 {
     class Server
     {
-        public static Client client;
         TcpListener server;
         Queue<byte[]> messageQueue;
         Dictionary <string, Client> clients;
