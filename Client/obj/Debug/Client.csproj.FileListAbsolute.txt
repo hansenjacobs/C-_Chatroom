@@ -11,3 +11,10 @@ C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\Chat
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Client\obj\Debug\Client.exe
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Client\obj\Debug\Client.pdb
+D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\bin\Debug\Client.exe.config
+D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\bin\Debug\Client.exe
+D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\bin\Debug\Client.pdb
+D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\obj\Debug\Client.csprojAssemblyReference.cache
+D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\obj\Debug\Client.exe
+D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\obj\Debug\Client.pdb
