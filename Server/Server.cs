@@ -71,7 +71,11 @@ namespace Server
         }
         private void Respond(byte[] body)
         {
-             client.Send(body);
+            foreach(KeyValuePair<string, Client> pair in clients)
+            {
+                pair.Value.Send(body);
+            }
+             
         }
 
         private bool CheckQueue()
@@ -85,7 +89,5 @@ namespace Server
                 return false;
             }  
         }
-
-        //private void Chat(Server.Respond, Client.Send)
     }
 }
