@@ -17,8 +17,9 @@ namespace Server
         Dictionary <string, Client> clients;
         
         public Server()
-        {
-            server = new TcpListener(IPAddress.Parse("192.168.0.102"), 9999);
+        {//"192.168.0.102" -- Jacob
+         //"127.0.0.1", 8888 -- default when same machine
+            server = new TcpListener(IPAddress.Parse("192.168.0.102"), 8888);
             server.Start();
             messageQueue = new Queue<byte[]>();
             clients = new Dictionary<string, Client>();
@@ -50,7 +51,7 @@ namespace Server
                 Console.WriteLine("Connected");
                 NetworkStream stream = clientSocket.GetStream();
                 clients.Add(clientSocket.Client.RemoteEndPoint.ToString(), new Client(stream, clientSocket, messageQueue));
-                Parallel.Invoke(()=> 
+                Parallel.Invoke(()=>
                 {
                     clients[clientSocket.Client.RemoteEndPoint.ToString()].Receive();
                 }

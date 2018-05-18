@@ -12,7 +12,6 @@ C:\Users\guapo\Dropbox\Week 5\ChatroomStarter (2)\ChatroomStarter\ChatroomStarte
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\bin\Debug\Server.exe.config
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\bin\Debug\Server.exe
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\bin\Debug\Server.pdb
-C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.exe
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.pdb
@@ -23,3 +22,4 @@ D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.c
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.exe
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.pdb
+C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
