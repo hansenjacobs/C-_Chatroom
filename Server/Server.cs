@@ -55,7 +55,11 @@ namespace Server
                 string remoteEndPointString = clientSocket.Client.RemoteEndPoint.ToString();
                 clients.Add(remoteEndPointString, new Client(stream, clientSocket, messageQueue, remoteEndPointString));
                 Client client = clients[clientSocket.Client.RemoteEndPoint.ToString()];
+<<<<<<< HEAD
                 logger.DoLog(client.UserName + " has Connected: " + DateTime.Now.ToString());
+=======
+                client.SetUser(clients);
+>>>>>>> ead1829fb68f93b4613eebca59927be2abf52855
                 Thread clientReceive = new Thread(new ThreadStart(client.Receive));
                 clientReceive.Start();
             }
@@ -75,7 +79,7 @@ namespace Server
         {
             foreach(KeyValuePair<string, Client> pair in clients)
             {
-                pair.Value.Send(message.EncodedMessage);
+                pair.Value.Send($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
             }
             logger.DoLog(message.Body.Trim());
         }

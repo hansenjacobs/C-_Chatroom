@@ -12,7 +12,7 @@ namespace Server
         {
             this.Sender = Sender;
             EncodedMessage = encodedMessage;
-            Body = Encoding.ASCII.GetString(encodedMessage).Trim();
+            Body = Encoding.ASCII.GetString(encodedMessage).Trim('\0');
             ReceivedDateTime = DateTime.Now;
         }
 

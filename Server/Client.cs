@@ -26,16 +26,16 @@ namespace Server
 
         public string GetUserInput(string message)
         {
-            Send(Encoding.ASCII.GetBytes(message));
+            Send(message);
             byte[] recievedMessage = new byte[5000];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
-            return Encoding.ASCII.GetString(recievedMessage).Trim();
+            return Encoding.ASCII.GetString(recievedMessage).Trim('\0');
 
         }
 
-        public void Send(byte[] message)
+        public void Send(string messageString)
         {
-            //byte[] message = Encoding.ASCII.GetBytes(Message);
+            byte[] message = Encoding.ASCII.GetBytes(messageString);
             stream.Write(message, 0, message.Count());
         }
 
@@ -55,7 +55,7 @@ namespace Server
                 }
                 else
                 {
-                    Send(Encoding.ASCII.GetBytes("That username is already in use, please try again."));
+                    Send("That username is already in use, please try again.");
                 }
             } while (!usernameSet);
         }
