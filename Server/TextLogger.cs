@@ -9,11 +9,16 @@ namespace Server
 {
     class TextLogger : ILogger
     {
-        string filePath = Environment.CurrentDirectory;
+        string filePath;
+        StreamWriter textFile;
 
+        public TextLogger()
+        {
+            filePath = Environment.CurrentDirectory;
+            textFile = new StreamWriter(filePath + "\\log.txt");
+        }
         public void DoLog(string message)
         {
-            StreamWriter textFile = new StreamWriter(filePath);
             textFile.WriteLine(message);
         }
     }
