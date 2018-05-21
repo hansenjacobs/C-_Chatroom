@@ -55,6 +55,7 @@ namespace Server
                 string remoteEndPointString = clientSocket.Client.RemoteEndPoint.ToString();
                 clients.Add(remoteEndPointString, new Client(stream, clientSocket, messageQueue, remoteEndPointString));
                 Client client = clients[clientSocket.Client.RemoteEndPoint.ToString()];
+                client.SetUser(clients);
                 Thread clientReceive = new Thread(new ThreadStart(client.Receive));
                 clientReceive.Start();
             }
