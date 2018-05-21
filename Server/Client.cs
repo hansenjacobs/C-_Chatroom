@@ -12,15 +12,17 @@ namespace Server
     {
         NetworkStream stream;
         TcpClient client;
-        public string UserId;
-        public Queue<Message> messageQueue;
-        public Client(NetworkStream Stream, TcpClient Client, Queue <Message> messageQueue)
+        private Queue<Message> messageQueue;
+
+        public Client(NetworkStream Stream, TcpClient Client, Queue <Message> messageQueue, string userName)
         {
             stream = Stream;
             client = Client;
-            UserId = "495933b6-1762-47a1-b655-483510072e73";
+            UserName = userName;
             this.messageQueue = messageQueue;
         }
+
+        public string UserName { get; private set; }
 
         public string GetUserInput(string message)
         {
@@ -45,7 +47,10 @@ namespace Server
                 string input = GetUserInput("Please enter your username:");
                 if (!clients.ContainsKey(input))
                 {
-                    UserId = input;
+                    string oldUserName = UserName;
+                    UserName = input;
+                    clients.Remove(oldUserName);
+                    clients.Add(UserName, this);
                     usernameSet = true;
                 }
                 else
