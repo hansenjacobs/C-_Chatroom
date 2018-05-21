@@ -22,3 +22,4 @@ D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.c
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.exe
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.pdb
 C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\ChatroomStarter\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.csprojAssemblyReference.cache

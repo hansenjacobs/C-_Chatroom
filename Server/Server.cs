@@ -74,7 +74,7 @@ namespace Server
         {
             foreach(KeyValuePair<string, Client> pair in clients)
             {
-                pair.Value.Send(message.EncodedMessage);
+                pair.Value.Send($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
             }
             logger.DoLog(message.Body.Trim());
         }
