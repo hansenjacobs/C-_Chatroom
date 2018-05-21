@@ -27,7 +27,7 @@ namespace Server
         public string GetUserInput(string message)
         {
             Send(Encoding.ASCII.GetBytes(message));
-            byte[] recievedMessage = new byte[256];
+            byte[] recievedMessage = new byte[5000];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
             return Encoding.ASCII.GetString(recievedMessage).Trim();
 
