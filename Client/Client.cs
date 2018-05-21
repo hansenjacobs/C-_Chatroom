@@ -32,9 +32,9 @@ namespace Client
         {
             while (true)
             {
-                byte[] recievedMessage = new byte[256];
+                byte[] recievedMessage = new byte[5000];
                 stream.Read(recievedMessage, 0, recievedMessage.Length);
-                UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage));
+                UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage).Trim('\0'));
             }
         }
 
