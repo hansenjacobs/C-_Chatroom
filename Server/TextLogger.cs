@@ -5,21 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Server
 {
     class TextLogger : ILogger
     {
         string filePath;
-        StreamWriter textFile;
-
         public TextLogger()
         {
             filePath = Environment.CurrentDirectory;
-            textFile = new StreamWriter(filePath + "\\log.txt");
         }
         public void DoLog(string message)
         {
-            textFile.WriteLine(message);
+            using (StreamWriter textFile = new StreamWriter(filePath + "\\log.txt", true))
+            {
+                textFile.WriteLine(message);
+                textFile.Close();
+            }
         }
     }
 
