@@ -14,9 +14,11 @@ namespace Server
             sender = Sender;
             EncodedMessage = encodedMessage;
             Body = Encoding.ASCII.GetString(encodedMessage);
+            ReceivedDateTime = DateTime.Now;
         }
 
         public string Body { get; set; }
         public byte[] EncodedMessage { get; set; }
+        public DateTime ReceivedDateTime { get; private set; }
     }
 }
