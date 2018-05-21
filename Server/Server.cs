@@ -15,14 +15,16 @@ namespace Server
         TcpListener server;
         Queue<Message> messageQueue;
         Dictionary <string, Client> clients;
-        
+        ILogger logger;
+
         public Server()
         {//"192.168.0.102" -- Jacob
          //"127.0.0.1", 8888 -- default when same machine
-            server = new TcpListener(IPAddress.Parse("192.168.0.111"), 8888);
+            server = new TcpListener(IPAddress.Parse("127.0.0.1"), 8888);
             server.Start();
             messageQueue = new Queue<Message>();
             clients = new Dictionary<string, Client>();
+            logger = new TextLogger();
         }
         
         public void Run()
@@ -74,7 +76,7 @@ namespace Server
             {
                 pair.Value.Send(message.EncodedMessage);
             }
-             
+            logger.DoLog(message.Body.Trim());
         }
 
         private bool CheckQueue()
