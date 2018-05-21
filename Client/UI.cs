@@ -14,7 +14,19 @@ namespace Client
         }
         public static string GetInput()
         {
-            return Console.ReadLine();
+            int inputLineStart = Console.CursorTop;
+            string input = Console.ReadLine();
+            int inputLineEnd = Console.CursorTop;
+
+            for(int i = 0; i < inputLineEnd - inputLineStart; i++)
+            {
+                Console.CursorTop = inputLineStart;
+                Console.WriteLine("".PadRight(Console.BufferWidth));
+            }
+
+            Console.CursorTop = inputLineStart;
+
+            return input;
         }
     }
 }

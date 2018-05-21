@@ -11,7 +11,7 @@ namespace Client
         static void Main(string[] args)
         {
             Console.WriteLine("Client");
-            Client client = new Client("192.168.0.102", 8888);
+            Client client = new Client("192.168.0.111", 8888);
             Parallel.Invoke(
             () =>
             {

@@ -19,7 +19,7 @@ namespace Server
         public Server()
         {//"192.168.0.102" -- Jacob
          //"127.0.0.1", 8888 -- default when same machine
-            server = new TcpListener(IPAddress.Parse("192.168.0.102"), 8888);
+            server = new TcpListener(IPAddress.Parse("192.168.0.111"), 8888);
             server.Start();
             messageQueue = new Queue<byte[]>();
             clients = new Dictionary<string, Client>();
