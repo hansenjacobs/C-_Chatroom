@@ -9,13 +9,14 @@ namespace Server
     class Message
     {
         public Client sender;
-        public string Body;
-        public string UserId;
-        public Message(Client Sender, string Body)
+        public Message(Client Sender, byte[] encodedMessage)
         {
             sender = Sender;
-            this.Body = Body;
-            UserId = sender?.UserId;
+            EncodedMessage = encodedMessage;
+            Body = Encoding.ASCII.GetString(encodedMessage);
         }
+
+        public string Body { get; set; }
+        public byte[] EncodedMessage { get; set; }
     }
 }

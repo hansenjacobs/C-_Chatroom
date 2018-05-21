@@ -13,7 +13,7 @@ namespace Server
     class Server
     {
         TcpListener server;
-        Queue<byte[]> messageQueue;
+        Queue<Message> messageQueue;
         Dictionary <string, Client> clients;
         
         public Server()
@@ -21,7 +21,7 @@ namespace Server
          //"127.0.0.1", 8888 -- default when same machine
             server = new TcpListener(IPAddress.Parse("192.168.0.111"), 8888);
             server.Start();
-            messageQueue = new Queue<byte[]>();
+            messageQueue = new Queue<Message>();
             clients = new Dictionary<string, Client>();
         }
         
@@ -67,11 +67,11 @@ namespace Server
                 }
             }
         }
-        private void Respond(byte[] body)
+        private void Respond(Message message)
         {
             foreach(KeyValuePair<string, Client> pair in clients)
             {
-                pair.Value.Send(body);
+                pair.Value.Send(message.EncodedMessage);
             }
              
         }
