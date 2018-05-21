@@ -10,7 +10,7 @@ namespace Client
     {
         public static void DisplayMessage(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine(message.Trim());
         }
         public static string GetInput()
         {
