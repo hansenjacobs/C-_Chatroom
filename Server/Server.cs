@@ -50,7 +50,8 @@ namespace Server
                 
                 Console.WriteLine("Connected");
                 NetworkStream stream = clientSocket.GetStream();
-                clients.Add(clientSocket.Client.RemoteEndPoint.ToString(), new Client(stream, clientSocket, messageQueue));
+                string remoteEndPointString = clientSocket.Client.RemoteEndPoint.ToString();
+                clients.Add(remoteEndPointString, new Client(stream, clientSocket, messageQueue, remoteEndPointString));
                 Client client = clients[clientSocket.Client.RemoteEndPoint.ToString()];
                 Thread clientReceive = new Thread(new ThreadStart(client.Receive));
                 clientReceive.Start();
