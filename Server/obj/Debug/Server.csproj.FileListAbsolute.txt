@@ -18,7 +18,6 @@ C:\Users\cklos\source\repos\ChatroomStarter\ChatroomStarter\ChatroomStarter\Chat
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\bin\Debug\Server.exe.config
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\bin\Debug\Server.exe
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\bin\Debug\Server.pdb
-D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.csprojAssemblyReference.cache
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.exe
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Server\obj\Debug\Server.pdb
