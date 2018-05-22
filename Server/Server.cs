@@ -17,14 +17,14 @@ namespace Server
         Dictionary <string, Client> clients;
         ILogger logger;
 
-        public Server()
+        public Server(ILogger logger)
         {//"192.168.0.102" -- Jacob
          //"127.0.0.1", 8888 -- default when same machine
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 8888);
             server.Start();
             messageQueue = new Queue<Message>();
             clients = new Dictionary<string, Client>();
-            logger = new TextLogger();
+            this.logger = logger;
         }
         
         public void Run()
@@ -55,6 +55,7 @@ namespace Server
                 string remoteEndPointString = clientSocket.Client.RemoteEndPoint.ToString();
                 clients.Add(remoteEndPointString, new Client(stream, clientSocket, messageQueue, remoteEndPointString));
                 Client client = clients[clientSocket.Client.RemoteEndPoint.ToString()];
+                logger.DoLog(client.UserName + " has Connected: " + DateTime.Now.ToString());
                 client.SetUser(clients);
                 Thread clientReceive = new Thread(new ThreadStart(client.Receive));
                 clientReceive.Start();

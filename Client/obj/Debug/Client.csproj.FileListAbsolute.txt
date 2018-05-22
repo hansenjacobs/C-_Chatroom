@@ -17,4 +17,3 @@ D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\bin\Debug\Client.p
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\obj\Debug\Client.exe
 D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\obj\Debug\Client.pdb
-D:\Users\hanse\Google Drive\devCodeCamp\Week8\Chatroom\Client\obj\Debug\Client.csprojAssemblyReference.cache
