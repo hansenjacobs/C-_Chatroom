@@ -12,7 +12,6 @@ namespace Server
     {
         NetworkStream stream;
         TcpClient client;
-        private Queue<Message> messageQueue;
 
         public Client(NetworkStream Stream, TcpClient Client, Dictionary<string, Chatroom> chatrooms, string userName)
         {

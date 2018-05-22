@@ -59,17 +59,6 @@ namespace Server
                 Client client = new Client(stream, clientSocket, Chatrooms, "New User");
                 client.SetUser(clients);
                 new Thread(new ThreadStart(client.Start)).Start();
-
-                //clients.Add(remoteEndPointString, new Client(stream, clientSocket, messageQueue, "New User"));
-                //Client client = clients[remoteEndPointString];
-                //client.SetUser(clients);
-
-                //lock (messageQueue)
-                //{
-                //    messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has joined the chatroom from {remoteEndPointString}>>"));
-                //}
-                //Thread clientReceive = new Thread(new ThreadStart(client.Receive));
-                //clientReceive.Start();
             }
         }
 
