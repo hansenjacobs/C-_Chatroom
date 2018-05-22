@@ -13,8 +13,8 @@ namespace Server
     class Server
     {
         TcpListener server;
-        Queue<Message> messageQueue;
-        Dictionary <string, Client> clients;
+        static Queue<Message> messageQueue;
+        static Dictionary <string, Client> clients;
         ILogger logger;
 
         public Server(ILogger logger)
@@ -49,17 +49,22 @@ namespace Server
                     //find better condition later 
                 TcpClient clientSocket = default(TcpClient);
                 clientSocket = server.AcceptTcpClient();
-                
-                Console.WriteLine("Connected");
                 NetworkStream stream = clientSocket.GetStream();
                 string remoteEndPointString = clientSocket.Client.RemoteEndPoint.ToString();
                 clients.Add(remoteEndPointString, new Client(stream, clientSocket, messageQueue, remoteEndPointString));
                 Client client = clients[clientSocket.Client.RemoteEndPoint.ToString()];
                 logger.DoLog(client.UserName + " has Connected: " + DateTime.Now.ToString());
                 client.SetUser(clients);
+                messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has joined the chatroom from {remoteEndPointString}>>"));
                 Thread clientReceive = new Thread(new ThreadStart(client.Receive));
                 clientReceive.Start();
             }
+        }
+
+        public static void CloseClient(Client client)
+        {
+            clients.Remove(client.UserName);
+            messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has left the chatroom>>"));
         }
 
         private void DeliverQueueMessages()
@@ -74,11 +79,24 @@ namespace Server
         }
         private void Respond(Message message)
         {
-            foreach(KeyValuePair<string, Client> pair in clients)
+            if(message.Sender != null)
             {
-                pair.Value.Send($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
+                foreach(KeyValuePair<string, Client> pair in clients)
+                {
+                    pair.Value.Send($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
+                }
+                logger.DoLog(message.Body);
+                Console.WriteLine($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
             }
-            logger.DoLog(message.Body.Trim());
+            else
+            {
+                foreach(KeyValuePair<string, Client> pair in clients)
+                {
+                    pair.Value.Send($"{message.ReceivedDateTime.ToString("G")} {message.Body}");
+                }
+                logger.DoLog(message.Body);
+                Console.WriteLine($"{message.ReceivedDateTime.ToString("G")} {message.Body}");
+            }
         }
 
         private bool CheckQueue()

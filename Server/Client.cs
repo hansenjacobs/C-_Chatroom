@@ -62,12 +62,19 @@ namespace Server
 
         public void Receive()
         {
-            while (true)
+            try
             {
-                byte[] recievedMessage = new byte[5000];
-                stream.Read(recievedMessage, 0, recievedMessage.Length);
-                messageQueue.Enqueue(new Message(this, recievedMessage));
-                Console.WriteLine(Encoding.ASCII.GetString(recievedMessage));
+                while (true)
+                {
+                    byte[] recievedMessage = new byte[5000];
+                    stream.Read(recievedMessage, 0, recievedMessage.Length);
+                    messageQueue.Enqueue(new Message(this, recievedMessage));
+                    Console.WriteLine(Encoding.ASCII.GetString(recievedMessage).Trim('\0'));
+                }
+            }
+            catch (SystemException e)
+            {
+                Server.CloseClient(this);
             }
         }
     }

@@ -16,6 +16,14 @@ namespace Server
             ReceivedDateTime = DateTime.Now;
         }
 
+        public Message(Client sender, string message)
+        {
+            this.Sender = sender;
+            EncodedMessage = Encoding.ASCII.GetBytes(message);
+            Body = message;
+            ReceivedDateTime = DateTime.Now;
+        }
+
         public string Body { get; set; }
         public byte[] EncodedMessage { get; set; }
         public DateTime ReceivedDateTime { get; private set; }
