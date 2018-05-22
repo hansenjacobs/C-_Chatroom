@@ -55,7 +55,10 @@ namespace Server
                 Client client = clients[clientSocket.Client.RemoteEndPoint.ToString()];
                 logger.DoLog(client.UserName + " has Connected: " + DateTime.Now.ToString());
                 client.SetUser(clients);
-                messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has joined the chatroom from {remoteEndPointString}>>"));
+                lock (messageQueue)
+                {
+                    messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has joined the chatroom from {remoteEndPointString}>>"));
+                }
                 Thread clientReceive = new Thread(new ThreadStart(client.Receive));
                 clientReceive.Start();
             }
@@ -64,7 +67,8 @@ namespace Server
         public static void CloseClient(Client client)
         {
             clients.Remove(client.UserName);
-            messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has left the chatroom>>"));
+            lock(messageQueue)
+                messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has left the chatroom>>"));
         }
 
         private void DeliverQueueMessages()
@@ -73,7 +77,13 @@ namespace Server
             {
                 if (CheckQueue())
                 {
-                    Respond(messageQueue.Dequeue());
+                    Message message;
+                    lock (messageQueue)
+                    {
+                        message = messageQueue.Dequeue();
+                    }
+                        
+                    Respond(message);
                 }
             }
         }

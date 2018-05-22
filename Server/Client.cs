@@ -68,8 +68,11 @@ namespace Server
                 {
                     byte[] recievedMessage = new byte[5000];
                     stream.Read(recievedMessage, 0, recievedMessage.Length);
-                    messageQueue.Enqueue(new Message(this, recievedMessage));
-                    Console.WriteLine(Encoding.ASCII.GetString(recievedMessage).Trim('\0'));
+                    lock (messageQueue)
+                    {
+                        messageQueue.Enqueue(new Message(this, recievedMessage));
+                    }
+                    
                 }
             }
             catch (SystemException e)
