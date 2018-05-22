@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Server
+    class Server : IRecipient
     {
         TcpListener server;
         static Queue<Message> messageQueue;
@@ -69,6 +69,21 @@ namespace Server
             clients.Remove(client.UserName);
             lock(messageQueue)
                 messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has left the chatroom>>"));
+        }
+
+        public void DeliverMessage(Message message)
+        {
+            if(message.Sender != null)
+            {
+                logger.DoLog($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
+                Console.WriteLine($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
+            }
+            else
+            {
+                logger.DoLog($"{message.ReceivedDateTime.ToString("G")} {message.Body}");
+                Console.WriteLine($"{message.ReceivedDateTime.ToString("G")} {message.Body}");
+            }
+            
         }
 
         private void DeliverQueueMessages()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client
+    class Client : IRecipient
     {
         NetworkStream stream;
         TcpClient client;
@@ -23,6 +23,21 @@ namespace Server
         }
 
         public string UserName { get; private set; }
+
+        public void DeliverMessage(Message message)
+        {
+            byte[] encodedMessage;
+            if (message.Sender != null)
+            {
+                encodedMessage = Encoding.ASCII.GetBytes($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
+            }
+            else
+            {
+                encodedMessage = Encoding.ASCII.GetBytes($"{message.ReceivedDateTime.ToString("G")} {message.Body}");
+            }
+
+            stream.Write(encodedMessage, 0, encodedMessage.Count());
+        }
 
         public string GetUserInput(string message)
         {
