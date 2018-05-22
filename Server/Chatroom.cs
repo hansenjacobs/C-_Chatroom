@@ -13,6 +13,7 @@ namespace Server
             Name = name;
             Recipients = new Dictionary<string, IRecipient>();
             Recipients.Add("server", server);
+            MessageQueue = new Queue<Message>();
         }
 
         public int ChatterCount
@@ -31,6 +32,30 @@ namespace Server
         {
             Recipients.Add(username, user);
             Notify(new Message(null, $"<<{username} has joined the chatroom>>"));
+        }
+
+        public void DeliverMessages()
+        {
+            while (true)
+            {
+                if(MessageQueue.Count > 0)
+                {
+                    lock (MessageQueue)
+                    {
+                        Message message = MessageQueue.Dequeue();
+                        foreach (KeyValuePair<string, IRecipient> recipient in Recipients)
+                        {
+                            recipient.Value.DeliverMessage(message);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void EnqueueMessage(Message message)
+        {
+            lock(MessageQueue)
+                MessageQueue.Enqueue(message);
         }
 
         public void RemoveUser(string username)

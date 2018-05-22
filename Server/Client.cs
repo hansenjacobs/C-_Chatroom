@@ -14,15 +14,70 @@ namespace Server
         TcpClient client;
         private Queue<Message> messageQueue;
 
-        public Client(NetworkStream Stream, TcpClient Client, Queue <Message> messageQueue, string userName)
+        public Client(NetworkStream Stream, TcpClient Client, Dictionary<string, Chatroom> chatrooms, string userName)
         {
             stream = Stream;
             client = Client;
             UserName = userName;
-            this.messageQueue = messageQueue;
+            Chatrooms = chatrooms;
         }
 
+        private string ListChatrooms
+        {
+            get
+            {
+                string output = "";
+                foreach (KeyValuePair<string, Chatroom> chatroom in Chatrooms)
+                {
+                    output += chatroom.Key.ToString() + "\n";
+                }
+                return output.Trim();
+            }
+        }
+
+        public Chatroom CurrentChatroom { get; set; }
+
+        public Dictionary<string, Chatroom> Chatrooms { get; set; }
+
         public string UserName { get; private set; }
+
+        public void ChatroomMenu()
+        {
+            Send("What chatroom would you like to join?");
+            string input = "";
+            do
+            {
+                input = GetUserInput(ListChatrooms);
+            } while (!Chatrooms.ContainsKey(input));
+
+            ChangeChatroom(Chatrooms[input]);
+        }
+
+        public void ChatroomMenu(string input)
+        {
+            if (!Chatrooms.ContainsKey(input))
+            {
+                Send("What chatroom would you like to join?");
+
+                do
+                {
+                    input = GetUserInput(ListChatrooms);
+                } while (!Chatrooms.ContainsKey(input));
+            }
+
+            ChangeChatroom(Chatrooms[input]);
+
+        }
+
+        public void ChangeChatroom(Chatroom chatroom)
+        {
+            if(CurrentChatroom != null)
+            {
+                CurrentChatroom.RemoveUser(UserName);
+            }
+            CurrentChatroom = chatroom;
+            CurrentChatroom.AddUser(UserName, this);
+        }
 
         public void DeliverMessage(Message message)
         {
@@ -46,6 +101,31 @@ namespace Server
             stream.Read(recievedMessage, 0, recievedMessage.Length);
             return Encoding.ASCII.GetString(recievedMessage).Trim('\0');
 
+        }
+
+        public string Receive()
+        {
+            try
+            {
+                while (true)
+                {
+                    byte[] recievedMessage = new byte[5000];
+                    stream.Read(recievedMessage, 0, recievedMessage.Length);
+                    string messageString = Encoding.ASCII.GetString(recievedMessage);
+                    if(messageString.Substring(0, 2) != ">>")
+                    {
+                        CurrentChatroom.EnqueueMessage(new Message(this, recievedMessage));
+                    }
+                    else
+                    {
+                        return messageString.Trim().Trim('\0');
+                    }
+                }
+            }
+            catch (SystemException)
+            {
+                return "";
+            }
         }
 
         public void Send(string messageString)
@@ -75,25 +155,21 @@ namespace Server
             } while (!usernameSet);
         }
 
-        public void Receive()
+        public void Start()
         {
-            try
+            Send(UserName + " welcome to the chat server.");
+            ChatroomMenu();
+            string input = "";
+            do
             {
-                while (true)
+                input = Receive();
+                if(input.Length >= 2 && input.Substring(0, 2) == ">>")
                 {
-                    byte[] recievedMessage = new byte[5000];
-                    stream.Read(recievedMessage, 0, recievedMessage.Length);
-                    lock (messageQueue)
-                    {
-                        messageQueue.Enqueue(new Message(this, recievedMessage));
-                    }
-                    
+                    ChatroomMenu(input.Substring(2));
+
                 }
-            }
-            catch (SystemException e)
-            {
-                Server.CloseClient(this);
-            }
+            } while (input != "");
+            CurrentChatroom.RemoveUser(UserName);
         }
     }
 }

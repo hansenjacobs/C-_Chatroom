@@ -15,6 +15,7 @@ namespace Server
         TcpListener server;
         static Queue<Message> messageQueue;
         static Dictionary <string, Client> clients;
+        public Dictionary<string, Chatroom> Chatrooms { get; set; }
         ILogger logger;
 
         public Server(ILogger logger)
@@ -25,10 +26,15 @@ namespace Server
             messageQueue = new Queue<Message>();
             clients = new Dictionary<string, Client>();
             this.logger = logger;
+            Chatrooms = new Dictionary<string, Chatroom>();
         }
         
         public void Run()
         {
+            CreateChatroom("Main");
+            CreateChatroom("CoolPeople");
+            CreateChatroom("AveragePeople");
+
             Parallel.Invoke(
             ()=>
             {
@@ -46,21 +52,24 @@ namespace Server
         {
             while (true)
             { 
-                    //find better condition later 
                 TcpClient clientSocket = default(TcpClient);
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
                 string remoteEndPointString = clientSocket.Client.RemoteEndPoint.ToString();
-                clients.Add(remoteEndPointString, new Client(stream, clientSocket, messageQueue, remoteEndPointString));
-                Client client = clients[clientSocket.Client.RemoteEndPoint.ToString()];
-                logger.DoLog(client.UserName + " has Connected: " + DateTime.Now.ToString());
+                Client client = new Client(stream, clientSocket, Chatrooms, "New User");
                 client.SetUser(clients);
-                lock (messageQueue)
-                {
-                    messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has joined the chatroom from {remoteEndPointString}>>"));
-                }
-                Thread clientReceive = new Thread(new ThreadStart(client.Receive));
-                clientReceive.Start();
+                new Thread(new ThreadStart(client.Start)).Start();
+
+                //clients.Add(remoteEndPointString, new Client(stream, clientSocket, messageQueue, "New User"));
+                //Client client = clients[remoteEndPointString];
+                //client.SetUser(clients);
+
+                //lock (messageQueue)
+                //{
+                //    messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has joined the chatroom from {remoteEndPointString}>>"));
+                //}
+                //Thread clientReceive = new Thread(new ThreadStart(client.Receive));
+                //clientReceive.Start();
             }
         }
 
@@ -69,6 +78,13 @@ namespace Server
             clients.Remove(client.UserName);
             lock(messageQueue)
                 messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has left the chatroom>>"));
+        }
+
+        public void CreateChatroom(string name)
+        {
+            Chatroom chatroom = new Chatroom(name, this);
+            Chatrooms.Add(name, chatroom);
+            new Thread(new ThreadStart(chatroom.DeliverMessages)).Start();
         }
 
         public void DeliverMessage(Message message)
