@@ -32,8 +32,10 @@ namespace Server
         public void Run()
         {
             CreateChatroom("Main");
-            CreateChatroom("CoolPeople");
-            CreateChatroom("AveragePeople");
+            CreateChatroom("Geeks");
+            CreateChatroom("Nerds");
+            CreateChatroom("Jocks");
+            CreateChatroom("Grunge");
 
             Parallel.Invoke(
             ()=>
@@ -65,8 +67,6 @@ namespace Server
         public static void CloseClient(Client client)
         {
             clients.Remove(client.UserName);
-            lock(messageQueue)
-                messageQueue.Enqueue(new Message(null, $"<<{client.UserName} has left the chatroom>>"));
         }
 
         public void CreateChatroom(string name)
@@ -80,8 +80,8 @@ namespace Server
         {
             if(message.Sender != null)
             {
-                logger.DoLog($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
-                Console.WriteLine($"{message.ReceivedDateTime.ToString("G")} {message.Sender.UserName} >> {message.Body}");
+                logger.DoLog($"{message.ReceivedDateTime.ToString("G")} {message.ChatroomName}.{message.Sender.UserName} >> {message.Body}");
+                Console.WriteLine($"{message.ReceivedDateTime.ToString("G")} {message.ChatroomName}.{message.Sender.UserName} >> {message.Body}");
             }
             else
             {

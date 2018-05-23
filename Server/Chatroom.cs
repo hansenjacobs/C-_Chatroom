@@ -31,7 +31,7 @@ namespace Server
         public void AddUser(string username, IRecipient user)
         {
             Recipients.Add(username, user);
-            Notify(new Message(null, $"<<{username} has joined the chatroom>>"));
+            Notify(new Message(null, $"<<{username} has joined the {Name} chatroom>>", Name));
         }
 
         public void DeliverMessages()
@@ -61,7 +61,7 @@ namespace Server
         public void RemoveUser(string username)
         {
             Recipients.Remove(username);
-            Notify(new Message(null, $"<<{username} has left the chatroom>>"));
+            Notify(new Message(null, $"<<{username} has left the {Name} chatroom>>", Name));
         }
 
         public void Notify(Message message)

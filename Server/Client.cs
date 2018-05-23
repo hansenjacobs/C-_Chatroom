@@ -46,7 +46,7 @@ namespace Server
             string input = "";
             do
             {
-                input = GetUserInput(ListChatrooms);
+                input = GetUserInput(ListChatrooms + "\n");
             } while (!Chatrooms.ContainsKey(input));
 
             ChangeChatroom(Chatrooms[input]);
@@ -75,6 +75,7 @@ namespace Server
                 CurrentChatroom.RemoveUser(UserName);
             }
             CurrentChatroom = chatroom;
+            Send($"Welcome to the {CurrentChatroom.Name} chatroom.  To change rooms enter '>>' or enter '>>' + the name of the room, for example, '>>Main' to move to the Main chatroom.\n");
             CurrentChatroom.AddUser(UserName, this);
         }
 
@@ -113,7 +114,7 @@ namespace Server
                     string messageString = Encoding.ASCII.GetString(recievedMessage);
                     if(messageString.Substring(0, 2) != ">>")
                     {
-                        CurrentChatroom.EnqueueMessage(new Message(this, recievedMessage));
+                        CurrentChatroom.EnqueueMessage(new Message(this, recievedMessage, CurrentChatroom.Name));
                     }
                     else
                     {
@@ -123,6 +124,7 @@ namespace Server
             }
             catch (SystemException)
             {
+                Server.CloseClient(this);
                 return "";
             }
         }
@@ -156,7 +158,7 @@ namespace Server
 
         public void Start()
         {
-            Send(UserName + " welcome to the chat server.");
+            Send(UserName + " welcome to the chat server.\n");
             ChatroomMenu();
             string input = "";
             do
@@ -165,7 +167,6 @@ namespace Server
                 if(input.Length >= 2 && input.Substring(0, 2) == ">>")
                 {
                     ChatroomMenu(input.Substring(2));
-
                 }
             } while (input != "");
             CurrentChatroom.RemoveUser(UserName);
