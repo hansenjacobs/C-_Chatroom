@@ -32,10 +32,11 @@ namespace Server
         public void Run()
         {
             CreateChatroom("Main");
-            CreateChatroom("Geeks");
-            CreateChatroom("Nerds");
             CreateChatroom("Jocks");
-            CreateChatroom("Grunge");
+            CreateChatroom("MeanGirls");
+            CreateChatroom("Nerds");
+            CreateChatroom("Outsiders");
+            CreateChatroom("Thespians");
 
             Parallel.Invoke(
             ()=>
