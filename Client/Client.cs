@@ -15,8 +15,18 @@ namespace Client
         public Client(string IP, int port)
         {
             clientSocket = new TcpClient();
-            clientSocket.Connect(IPAddress.Parse(IP), port);
-            stream = clientSocket.GetStream();
+            try
+            {
+                clientSocket.Connect(IPAddress.Parse(IP), port);
+                stream = clientSocket.GetStream();
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("Unable to connect to the server.");
+                Console.WriteLine(e.Message + "\n");
+                Console.WriteLine("Please close and try again");
+            }
+
         }
         public void Send()
         {
