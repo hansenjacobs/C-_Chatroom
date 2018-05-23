@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Client
@@ -24,7 +25,7 @@ namespace Client
             {
                 Console.WriteLine("Unable to connect to the server.");
                 Console.WriteLine(e.Message + "\n");
-                Console.WriteLine("Please close and try again");
+                Console.WriteLine("Please close andre-open to try again.");
             }
 
         }
@@ -42,8 +43,18 @@ namespace Client
             while (true)
             {
                 byte[] recievedMessage = new byte[5000];
-                stream.Read(recievedMessage, 0, recievedMessage.Length);
-                UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage).Trim('\0'));
+                try
+                {
+                    stream.Read(recievedMessage, 0, recievedMessage.Length);
+                    UI.DisplayMessage(Encoding.ASCII.GetString(recievedMessage).Trim('\0'));
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("Lost server connection.");
+                    Console.WriteLine(e.Message + "\n");
+                    Console.WriteLine("Please closeand re-open to try and re-establish connection.");
+                }
+
             }
         }
 
